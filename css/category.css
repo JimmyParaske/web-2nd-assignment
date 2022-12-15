@@ -1,0 +1,123 @@
+* {
+    padding: 0;
+    margin: 0;
+    outline: 0;
+}
+
+body {
+    background: #fff;
+    font-size: 12px;
+    line-height: 16px;
+    color: #636363;
+}
+
+#header {
+    height: 64px;
+    background: blue;
+    position: relative;
+}
+
+#logo {
+    font-size: 10;
+    line-height: 10;
+    width: 156px;
+    height: 64px;
+    float: left;
+    background-color: white;
+}
+
+#logo a {
+    display: block;
+    height: 64px;
+    text-indent: -4000px;
+}
+
+#cart {
+    float: right;
+    width: 160px;
+    top: 0;
+    right: 0;
+    height: 51px;
+    background: #8b0000;
+    color: #fff;
+    padding: 13px 10px 0 10px;
+    white-space: nowrap;
+    line-height: 20px;
+}
+
+a.cart {
+    color: #fff;
+    padding: 0 0 0 32px;
+    text-decoration: none;
+}
+
+a.cart:hover {
+    text-decoration: underline;
+}
+
+#navigation {
+    float: right;
+    white-space: nowrap;
+}
+
+#navigation ul {
+    list-style-type: none;
+    height: 64px;
+    font-weight: bold;
+    float: left;
+}
+
+#navigation ul li {
+    float: left;
+    display: inline;
+}
+
+#navigation ul li a {
+    float: left;
+    height: 64px;
+    line-height: 64px;
+    text-decoration: none;
+    color: #fff;
+    padding: 0 15px;
+}
+
+#navigation ul li a.active,
+#navigation ul li a:hover {
+    background: #fff;
+    color: #8b0000;
+}
+
+#footer {
+    height: 51px;
+    background: #ebebeb;
+    white-space: nowrap;
+    line-height: 50px;
+    padding: 0 15px;
+    color: #7b7b7b;
+    margin-top: 10px;
+}
+
+#footer a {
+    color: #7b7b7b;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: #000;
+}
+
+#footer span {
+    padding: 0 2px;
+}
+
+#footer .left,
+.alignleft {
+    float: left;
+    display: inline;
+}
+
+#footer .right,
+.alignright {
+    float: right;
+    display: inline;
+}
