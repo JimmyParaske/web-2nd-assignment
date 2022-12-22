@@ -1,0 +1,95 @@
+<html lang="en">
+
+<head>
+    <title>My application</title>
+    <meta charset="UTF-8">
+
+    <!-- Load the Handlebars library. The Handlebars object is 
+    now available in the rest of the scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <!--
+        Load the JS code for the page. The code is located inside the public folder.
+        However, express serves this content under root path (see appropriate command in index.js)
+    -->
+    <script src="/public/js/main.js" type="text/javascript"></script>
+
+    <!--
+        Load CSS stylesheets from folder public/css/style.css.
+        Express serves this content, also, under the root path.
+    -->
+    <link rel="stylesheet" href="/public/css/style.css">
+
+
+    <link rel="icon" type="image/x-icon" href="../public/assets/logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="co-authored by Anastasios Mpourtsouklis, Dimitrios Paraskeuiotis">
+    
+
+
+</head>
+
+<body>
+
+    <div class="grid-container">
+        <div class="header-item">
+            <header class="header-light-color">
+                <a href="index.html">
+                    <img srcset="../public/assets/Technodata-logos_black_SR.png 600w,
+                        ../public/assets/Technodata-logos_black_MR.png 768w,
+                        ../public/assets/Technodata-logos_black_LR.png 1000w" sizes="(max-width: 600px) 80vw,
+                            (max-width: 768px) 100vw,
+                            1000px" src="../public/assets/Technodata-logos_black_LR.png" alt="Technodata λογότυτπο">
+                </a>
+
+                <nav class="navigation">
+                    <a href="index.html">ΑΡΧΙΚΗ</a>
+                    <a href="category.html" class="active">ΚΑΤΗΓΟΡΙΕΣ ΠΡΟΪΟΝΤΩΝ</a>
+                </nav>
+            </header>
+        </div>
+        
+
+        <div class="main-item">
+
+
+
+            <div class="myProducts"></div>
+
+        </div>
+
+
+
+        <div class="footer-item">
+            <footer class="footer-content">
+                <h4>Βρείτε μας στα ακόλουθα social media</h4>
+
+                <a href="index.html">
+                    <img src="../public/assets/facebook_logo.png" width="50" height="50" alt="Facebook λογότυπο">
+                </a>
+
+                <a href="index.html">
+                    <img src="../public/assets/twitter_logo.png" width="50" height="50" alt="Twitter λογότυπο">
+                </a>
+
+                <a href="index.html">
+                    <img src="../public/assets/instagram_new.png" width="50" height="50" alt="Instagram λογότυπο">
+                </a>
+
+                <a href="index.html">
+                    <img src="../public/assets/youtube_logo.png" width="50" height="50" alt="Youtube λογότυπο">
+                </a>
+                <h4>©2022 Techodata Computers</h4>
+
+                <a href="index.html">
+                    <img src="../public/assets/Technodata-logos_cropped_footer.png" width="170" height="50"
+                        alt="Tecnhodata λογότυπο">
+                </a>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>
