@@ -17,7 +17,7 @@ fetch("https://wiki-shop.onrender.com/categories")
         `{{#each this}}
             <div class='kathgoria'>
             <div class="fotografia">
-                <a href="category.html">
+                <a href="category.html?categoryID={{id}}">
                 <img src="{{img_url}}">
                 </a>
             </div>

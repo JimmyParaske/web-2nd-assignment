@@ -185,6 +185,174 @@ body {
 
 /* !!!!!!!!!!!!! ΤΕΛΟΣ INDEX !!!!!!!!!!!!!!!!! */
 
+
+
+
+/* !!!!!!!!!!!!!! CATEGORY !!!!!!!!!!!!!!!!!!!!! */
+
+
+#myProducts{
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.proion {
+
+    font-family: roboto-regular;
+   
+    border: 4px solid #6ab1d4;
+    box-shadow: 0px 2px 16px #6ab1d4;
+    max-width: 90%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+
+}
+
+.photo > img{
+    float: left;
+    max-width: 30%;
+    max-height: 30%;
+    border-right: 2px solid #6ab1d4;
+    background-color: #6ab1d4;
+}
+
+.title{
+
+    border-bottom: 2px solid #6ab1d4;
+    
+}
+
+.perigrafh{
+
+    text-align: left;
+    padding-left: 370px;
+    padding-right: 40px;
+}
+
+.prod{
+    margin-top: -30px;
+    margin-bottom: 15px;
+}
+
+h5{
+
+    display: inline-block;
+}
+
+.kwdikos{
+
+    display: inline-block;
+    font-size: 16px;
+    
+}
+
+.price{
+
+  
+    text-align: left;
+    padding-left: 370px;
+
+   
+}
+
+.price > h3 {
+
+    display: inline-block;
+
+}
+
+
+
+.price > p {
+
+    display: inline-block;
+    padding-left: 5px;
+
+}
+
+
+.kathgories-proiontwn{
+
+    text-align: left;
+    float: left;
+    margin-top: 2%;
+    
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 4px solid #6ab1d4;
+    
+    box-shadow: 0px 2px 16px #6ab1d4;
+
+}
+
+.koumpia {
+   
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+
+input,
+label {
+    cursor: pointer;
+    /* pointer that indicates to a link */
+}
+
+input[type="radio"] {
+    height: 15px;
+    width: 15px;
+}
+
+
+
+.ypokathgories {
+    
+   
+    appearance: none;
+    border: 4px solid #fff;
+    background-color: #ccc;
+    border-radius: 50%;
+    outline: 1px solid #ccc;
+}
+
+.ypokathgories:hover {
+    outline-color: gray;
+}
+
+.ypokathgories:checked {
+    outline-color: #5680e9;
+    background-color: #5680e9;
+    animation: outline-checked;
+    /* το κουμπι να παιρνει γυρω γυρω και μεσα το χρωμα αυτο */
+    animation-duration: 0.1s;
+    animation-iteration-count: 4;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+}
+
+@keyframes outline-checked {
+    0% {
+        outline-offset: 0;
+    }
+
+    /* το χρεαιζομαστε για τo animation sequence */
+    100% {
+        outline-offset: -0.2rem;
+    }
+}
+
+
+
+
+/* !!!!!!!!!!!!!!!!!!!! ΤΕΛΟΣ CATEGORY !!!!!!!!!!!! */
+
+
+
 /* !!!!!!!!!!!!!!! FOOTER !!!!!!!!!!!!!!!!!!!!!! */
  
 .footer-content {
