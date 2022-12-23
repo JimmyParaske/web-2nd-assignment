@@ -18,6 +18,7 @@ function getSubcategory(id){
 }
 
 let subCat = getSubcategory(id);
+console.log(subCat);    
 
 console.log(subCat);
 
@@ -29,31 +30,33 @@ fetch("https://wiki-shop.onrender.com/categories/" + id + "/products")
 
 
         template.templateFunction = Handlebars.compile(
-            `{{#each this}}
-                <div class='proion'>
-                    <div class="title">
-                        <h2>{{title}}</h2>
-                    </div>
+        
+            
+            `{{#each this}} 
+                    <div class='proion'>
+                        <div class="title">
+                            <h2>{{title}}</h2>
+                        </div>
 
-                    <div class="photo">  
-                        <img src="{{image}}">
-                    </div>
+                        <div class="photo">  
+                            <img src="{{image}} alt{{title}}">
+                        </div>
 
-                    <div class="perigrafh">
-                        <h3>Description:</h3> 
-                        <p>{{description}}</p>
-                        <div class="prod">
-                            <h5>product code:</h5>
-                            <p class="kwdikos">{{id}}</p>
+                        <div class="perigrafh">
+                            <h3>Description:</h3> 
+                            <p>{{description}}</p>
+                            <div class="prod">
+                                <h5>product code:</h5>
+                                <p class="kwdikos">{{id}}</p>
+                            </div>
+                        </div>
+
+                        <div class="price">
+                            <h3>Price:</h3>
+                            <p>{{cost}}.99$</p>
                         </div>
                     </div>
-
-                    <div class="price">
-                        <h3>Price:</h3>
-                        <p>{{cost}}.99$</p>
-                    </div>
-                </div>
-            {{/each}}`);
+                {{/each}}`);
     
     
             let content = template.templateFunction(data);
@@ -62,6 +65,8 @@ fetch("https://wiki-shop.onrender.com/categories/" + id + "/products")
     })
     .catch(error => console.log(error));
    
+
+
 
 
 fetch("https://wiki-shop.onrender.com/categories/" + id + "/subcategories")
