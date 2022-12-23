@@ -11,10 +11,26 @@ fetch("https://wiki-shop.onrender.com/categories")
     .then(data => {
         
         console.log(data);
-        appendData(data);
-        
+        let template = {};
+
+        template.templateFunction = Handlebars.compile(
+        `{{#each this}}
+            <div class='kathgoria'>
+            <div class="fotografia">
+                <a href="category.html">
+                <img src="{{img_url}}">
+                </a>
+            </div>
+            <div class="titlos">
+                <h2>{{title}}</h2>
+            </div>
+            </div>
+        {{/each}}`);
 
 
+        let content = template.templateFunction(data);
+        let main = document.getElementById("myData");
+        main.innerHTML += content;
     })
     .catch(error => console.log(error));
 
