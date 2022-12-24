@@ -210,6 +210,8 @@ body {
     
 }
 
+
+
 .proion {
 
     font-family: roboto-regular;
@@ -224,13 +226,16 @@ body {
 
 }
 
+
+
 .photo > img{
     float: left;
-    max-width: 30%;
-    max-height: 30%;
+    max-width:30%;
+    max-height:30%;
     border-right: 2px solid #6ab1d4;
     background-color: #6ab1d4;
     border-radius: 0px 25px 25px 25px;
+    object-fit: contain;
 }
 
 .title{
