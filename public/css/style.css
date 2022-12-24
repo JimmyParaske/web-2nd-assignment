@@ -338,9 +338,18 @@ input[type="radio"] {
     outline: 1px solid #ccc;
 }
 
+
 .ypokathgories:hover {
     outline-color: gray;
 }
+
+
+.ypokathgories .active{
+
+    outline-color: #5680e9;
+    background-color: #5680e9;
+}
+
 
 .ypokathgories:checked {
     outline-color: #5680e9;
