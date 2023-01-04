@@ -297,3 +297,50 @@ function ShowHideDiv() {
         }
     }
 }
+
+// 3o 
+let form = document.getElementById("form");
+let message = document.getElementById("message");
+
+form.addEventListener('submit', logSubmit);
+
+function logSubmit(event) {
+    event.preventDefault();
+
+    let usernameSubmitted = document.getElementById("username").value;
+    let passwordSubmitted = document.getElementById("password").value;
+
+    fetch('/auth', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: usernameSubmitted, password: passwordSubmitted })
+    })
+        .then((response) => {
+            getStatus(response.status);
+            return response.json();
+        })
+        .then((data) => {
+            responded(data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+function getStatus(status) {
+    console.log(status);
+
+    if (status == "200") {
+        message.innerHTML = "Επιτυχημένη σύνδεση!"
+    } else {
+        message.innerHTML = "Αποτυχημένη σύνδεση!"
+    }
+
+    return;
+}
+
+function responded(data) {
+    console.log(data);
+}

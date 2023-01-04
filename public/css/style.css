@@ -1,5 +1,5 @@
 /* FONTS */
-@font-face {
+/* @font-face {
     font-family: 'roboto';
     src: url(../../fonts/Roboto-Bold.ttf),
         local(Roboto-Bold);
@@ -15,7 +15,7 @@
     font-family: 'roboto-light';
     src: url(../../fonts/Roboto-Light.ttf),
         local(Roboto-Light)
-}
+} */
 
 
 .grid-container {
