@@ -136,11 +136,16 @@ body {
 }
 
 /* CATEGORY */
-#login {
+#form {
     background-color: #84ceeb;
 }
 
+#form button {
+    background-color: red;
+}
+
 #cart {
+    visibility: hidden;
     background-color: #84ceeb;
     margin-top: -20px;
 }

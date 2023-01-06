@@ -45,7 +45,7 @@
                 </form>
 
                 <div id="cart">
-                    <p>Προϊόντα: 0</p>
+                    <p id="size">Προϊόντα: 0</p>
                 </div>
             </header>
         </div>
@@ -53,6 +53,37 @@
         <div class="main-item">
             <div id="mySubcategories"></div>
             <div id="myProducts"></div>
+
+            <script id="products" type="text/x-handlebars-template">
+                {{#each this}}
+                <div class="{{subcategory_id}}">
+                    <div class='proion'>
+                        <div class="title">
+                            <h2>{{title}}</h2>
+                        </div>
+
+                        <div class="photo">
+                            <img src="{{image}} alt{{title}}">
+                        </div>
+
+                        <div class="perigrafh">
+                            <h3>Description:</h3>
+                            <p>{{description}}</p>
+                            <div class="prod">
+                                <h5>product code:</h5>
+                                <p class="kwdikos">{{id}}</p>
+                            </div>
+                        </div>
+
+                        <div class="price">
+                            <h3>Price:</h3>
+                            <p>{{cost}}.99$</p>
+                            <button id="buyButton" name="{{id}}" type="button" onclick="buyProduct(event,name)">Buy</button>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </script>
         </div>
 
         <div class="footer-item">

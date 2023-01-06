@@ -19,42 +19,12 @@ fetch("https://wiki-shop.onrender.com/categories/" + id + "/products")
     .then(response => { return response.json(); })
     .then(data => {
         console.log(data);
-        let template = {};
 
-        template.templateFunction = Handlebars.compile(
-            `{{#each this}} 
-                <div class="{{subcategory_id}}">
-                    <div class='proion'>
-                        <div class="title">
-                            <h2>{{title}}</h2>
-                        </div>
-
-                        <div class="photo">  
-                            <img src="{{image}} alt{{title}}">
-                        </div>
-
-                        <div class="perigrafh">
-                            <h3>Description:</h3> 
-                            <p>{{description}}</p>
-                            <div class="prod">
-                                <h5>product code:</h5>
-                                <p class="kwdikos">{{id}}</p>
-                            </div>
-                        </div>
-
-                        <div class="price">
-                            <h3>Price:</h3>
-                            <p>{{cost}}.99$</p>
-                        </div>
-                    </div>
-               </div>
-            {{/each}}`);
-
-        let content = template.templateFunction(data);
-        let products = document.getElementById("myProducts");
-        let teliko = products;
-
-        teliko.innerHTML += content;
+        let rawTemplate = document.getElementById("products").innerHTML;
+        let compiledTemplate = Handlebars.compile(rawTemplate);
+        let ourHTML = compiledTemplate(data);
+        let outputHTML = document.getElementById("myProducts");
+        outputHTML.innerHTML = ourHTML;
     })
     .catch(error => console.log(error));
 
@@ -298,19 +268,21 @@ function ShowHideDiv() {
     }
 }
 
-// 3o 
+// User authentication
 let form = document.getElementById("form");
-let message = document.getElementById("message");
 
 form.addEventListener('submit', logSubmit);
+
+let usernameSubmitted;
+let sessionIdReceived; //User unique session id
 
 function logSubmit(event) {
     event.preventDefault();
 
-    let usernameSubmitted = document.getElementById("username").value;
+    usernameSubmitted = document.getElementById("username").value;
     let passwordSubmitted = document.getElementById("password").value;
 
-    fetch('/auth', {
+    fetch('/LS', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -318,29 +290,118 @@ function logSubmit(event) {
         body: JSON.stringify({ username: usernameSubmitted, password: passwordSubmitted })
     })
         .then((response) => {
-            getStatus(response.status);
+            getLSStatus(response.status);
+
             return response.json();
         })
         .then((data) => {
-            responded(data);
+            console.log(data);
+
+            getSessionId(data.sessionId);
+        })
+        .catch((error) => {
+            console.error(error)
+        });
+}
+
+function getLSStatus(status) {
+    console.log(status);
+
+    // If user logged in successfully
+    if (status == "200") {
+        // Hide log in form
+        form.style.display = "none";
+    } else {
+        // Else, print error message
+        let message = document.getElementById("message");
+        message.innerHTML = "Λανθασμένο username ή κωδικός!"
+    }
+
+    return;
+}
+
+function getSessionId(sessionId) {
+    sessionIdReceived = sessionId;
+
+    return;
+}
+
+// Add product to cart
+function buyProduct(event, productId) {
+    event.preventDefault();
+
+    fetch('/CIS', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ product: productId, username: usernameSubmitted, sessionId: sessionIdReceived })
+    })
+        .then((response) => {
+            getCISStatus(response.status);
+
+            return response;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+    getCartSize();
+}
+
+function getCISStatus(status) {
+    console.log(status);
+
+    // If user added product successfully
+    if (status == "200") {
+        // Show success message
+        window.alert("Product was added to your cart!");
+    } else if (status == "401") {
+        // // Else, if user is not logged in, show error message
+        window.alert("Please login to add products to your cart!");
+    }
+
+    return;
+}
+
+// Show cart size
+function getCartSize() {
+    let status;
+
+    fetch('/CSS', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: usernameSubmitted, sessionId: sessionIdReceived })
+    })
+        .then((response) => {
+            status = response.status;
+
+            return response.json();
+        })
+        .then((data) => {
+            getCSSStatus(status, data);
         })
         .catch((error) => {
             console.error(error);
         });
 }
 
-function getStatus(status) {
+function getCSSStatus(status, response) {
     console.log(status);
+    console.log(response);
 
+    // If cart size received successfully
     if (status == "200") {
-        message.innerHTML = "Επιτυχημένη σύνδεση!"
-    } else {
-        message.innerHTML = "Αποτυχημένη σύνδεση!"
+        // Show cart
+        let cart = document.getElementById("cart");
+        cart.style.visibility = "visible";
+
+        // Print cart size
+        let size = document.getElementById("size");
+        size.innerHTML = "Προϊόντα: " + response.size;
     }
 
     return;
-}
-
-function responded(data) {
-    console.log(data);
 }
