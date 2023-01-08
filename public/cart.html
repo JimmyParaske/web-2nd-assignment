@@ -2,14 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>WikiShop</title>
+    <title>Cart | WikiShop</title>
     <meta charset="UTF-8">
 
-    <!-- Load  Handlebars library. -->
+    <!-- Load Handlebars library. -->
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-
-    <!-- Load the JS code for the page. -->
-    <script src="./js/main.js" type="text/javascript"></script>
 
     <!-- Load CSS stylesheets. -->
     <link rel="stylesheet" href="./css/style.css">
@@ -30,14 +27,43 @@
                 </a>
 
                 <nav id="navigation">
-                    <a href="index.html" class="active">HOME</a>
+                    <a href="index.html">HOME</a>
                     <a href="category.html?categoryID=1">PRODUCT CATEGORIES</a>
                 </nav>
             </header>
         </section>
 
         <section id="main-item">
-            <div id="categories"></div>
+            <table id="cart-table" class="table"></table>
+
+            <script id="cart-table-template" class="table" type="text/x-handlebars-template">
+                <thead>
+                    <tr>
+                        {{#each array.[0]}}
+                            <th>{{@key}}</th>
+                        {{/each}}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each array}}
+                        <tr>
+                            {{#each this}}
+                                <td>{{this}}</td>
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </script>
+
+            <table id="total-cost" class="table"></table>
+
+            <script id="total-cost-template" class="table" type="text/x-handlebars-template">
+                    <tr>
+                        <td>Total Cost</td>
+                        <td>{{totalCost}}</td>
+                      </tr>
+            </script>
         </section>
 
         <section id="footer-item">
@@ -65,6 +91,10 @@
                 </a>
             </footer>
         </section>
+    </div>
 </body>
 
 </html>
+
+<!-- Load the JS code for the page. -->
+<script src="./js/cart.js" type="text/javascript"></script>

@@ -13,17 +13,15 @@ function getSubcategory(id) {
 let subCat = getSubcategory(id);
 console.log(subCat);
 
-console.log(subCat);
-
 fetch("https://wiki-shop.onrender.com/categories/" + id + "/products")
     .then(response => { return response.json(); })
     .then(data => {
         console.log(data);
 
-        let rawTemplate = document.getElementById("products").innerHTML;
+        let rawTemplate = document.getElementById("products-template").innerHTML;
         let compiledTemplate = Handlebars.compile(rawTemplate);
         let ourHTML = compiledTemplate(data);
-        let outputHTML = document.getElementById("myProducts");
+        let outputHTML = document.getElementById("products");
         outputHTML.innerHTML = ourHTML;
     })
     .catch(error => console.log(error));
@@ -269,17 +267,17 @@ function ShowHideDiv() {
 }
 
 // User authentication
+let username; // User's username
+let sessionId; // User's unique session id
+
+// When login form is submitted
 let form = document.getElementById("form");
-
 form.addEventListener('submit', logSubmit);
-
-let usernameSubmitted;
-let sessionIdReceived; //User unique session id
 
 function logSubmit(event) {
     event.preventDefault();
 
-    usernameSubmitted = document.getElementById("username").value;
+    username = document.getElementById("username").value;
     let passwordSubmitted = document.getElementById("password").value;
 
     fetch('/LS', {
@@ -287,7 +285,7 @@ function logSubmit(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: usernameSubmitted, password: passwordSubmitted })
+        body: JSON.stringify({ "username": username, "password": passwordSubmitted })
     })
         .then((response) => {
             getLSStatus(response.status);
@@ -314,28 +312,39 @@ function getLSStatus(status) {
     } else {
         // Else, print error message
         let message = document.getElementById("message");
-        message.innerHTML = "Λανθασμένο username ή κωδικός!"
+        message.innerHTML = "Wrong username or password!"
     }
 
     return;
 }
 
-function getSessionId(sessionId) {
-    sessionIdReceived = sessionId;
+function getSessionId(receivedSessionId) {
+    sessionId = receivedSessionId;
+
+    // Load cart's reference with variables
+    let rawTemplate = document.getElementById("cart-template").innerHTML;
+    let compiledTemplate = Handlebars.compile(rawTemplate);
+    let loadedTemplate = compiledTemplate({ "username": username, "sessionId": sessionId });
+    let cart = document.getElementById("cart");
+    cart.innerHTML = loadedTemplate;
+
+    // Update user's cart size
+    getCartSize();
 
     return;
 }
 
-// Add product to cart
-function buyProduct(event, productId) {
+// When buy button of a products is clicked
+function buyProduct(event, id, title, cost) {
     event.preventDefault();
 
+    // Add product to user's cart
     fetch('/CIS', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ product: productId, username: usernameSubmitted, sessionId: sessionIdReceived })
+        body: JSON.stringify({ "id": id, "title": title, "cost": cost, "username": username, "sessionId": sessionId })
     })
         .then((response) => {
             getCISStatus(response.status);
@@ -346,34 +355,36 @@ function buyProduct(event, productId) {
             console.error(error);
         });
 
+    // Update user's cart size
     getCartSize();
 }
 
 function getCISStatus(status) {
     console.log(status);
 
-    // If user added product successfully
+    // If product was added successfully
     if (status == "200") {
         // Show success message
-        window.alert("Product was added to your cart!");
+        let cartMessage = document.getElementById("cart-message");
+        cartMessage.innerHTML = "Product added!"
     } else if (status == "401") {
-        // // Else, if user is not logged in, show error message
+        // Else, if user is not logged in, show error message
         window.alert("Please login to add products to your cart!");
     }
 
     return;
 }
 
-// Show cart size
 function getCartSize() {
     let status;
 
+    // Get user's cart size from the server
     fetch('/CSS', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username: usernameSubmitted, sessionId: sessionIdReceived })
+        body: JSON.stringify({ "username": username, "sessionId": sessionId })
     })
         .then((response) => {
             status = response.status;
@@ -381,26 +392,22 @@ function getCartSize() {
             return response.json();
         })
         .then((data) => {
-            getCSSStatus(status, data);
+            showCartSize(status, data);
         })
         .catch((error) => {
             console.error(error);
         });
 }
 
-function getCSSStatus(status, response) {
+function showCartSize(status, response) {
     console.log(status);
     console.log(response);
 
-    // If cart size received successfully
+    // If cart's size was received successfully
     if (status == "200") {
-        // Show cart
-        let cart = document.getElementById("cart");
-        cart.style.visibility = "visible";
-
-        // Print cart size
+        // Print cart's size
         let size = document.getElementById("size");
-        size.innerHTML = "Προϊόντα: " + response.size;
+        size.innerHTML = "Cart: " + response.size;
     }
 
     return;

@@ -17,233 +17,355 @@
         local(Roboto-Light)
 } */
 
+/* GENERAL */
+* {
+    padding: 0;
+    margin: 0;
+    outline: 0;
+}
 
-.grid-container {
+a {
+    text-decoration: none;
+}
+
+/* GRIDS */
+#grid-container {
     display: grid;
     grid-auto-rows: auto;
     grid-auto-columns: auto;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 0.2fr 2fr 0.2fr;
-    /*αρχικα εχουμε 3 column για υπολογιστη και μετα με media queries θα γινουν 2 για ταμπλετ και 1 για κινητα */
     width: 100vw;
     height: 100vh;
 }
 
-.header-item {
+#header-item {
     grid-column: 1/4;
     grid-row: 1/2;
 }
 
-.main-item {
-    /* εδω εχουμε φτιαξει με grid layout τα 3 σημεια καθε σελιδας ...header , main και footer */
-    /* δηλαδη το που ξεκιναει και τελειωνει το καθε απο τα 3 μερη */
+#main-item {
     grid-column: 1/4;
     grid-row: 2/3;
 }
 
-.footer-item {
+#footer-item {
     grid-column: 1/4;
     grid-row: 3/4;
 }
 
 /* HEADER */
-.header-light-color {
-    background-color: #5680e9;
+#header-logo {
+    /* Position */
     text-align: center;
-    margin-top: -30px;
-    /* εχουμε βαλει χρωμα για background και μερικα margin ωστε να πηγαινει η φωτο στο κεντρο */
-    margin-left: -10px;
-    margin-right: -10px;
+    /* Style */
+    background-color: #d4d4d4;
 }
 
-.navigation {
-    font-family: roboto;
-    display: flex;
+#navigation {
+    /* Position */
     flex-direction: row;
     justify-content: center;
-    background-color: #84ceeb;
+    /* Style */
+    font-family: roboto;
+    background-color: #003333;
+    /* Extra */
+    display: flex;
 }
 
-.navigation a {
-    color: black;
-    font-size: 18px;
-    /* αλλαγη στο χρωμα του font και βγαλαμε το underline απο τα link ωστε να φαινεται πιο ωραιο ,  τα καναμε bold */
-    text-decoration: none;
+#navigation a {
+    /* Position */
     padding: 14px 12px;
+    /* Style */
+    color: whitesmoke;
+    font-size: 18px;
     font-weight: bold;
 }
 
-.navigation a:visited {
-    text-decoration: none;
-    /* να μην αλλαζει το χρωμα αν τα εχουμε ηδη πατησει / επισκευθει */
+#navigation a:hover {
+    /* Style */
+    background-color: #cc3300;
 }
 
-.navigation a:hover {
-    background-color: #2ea8d9;
-    /* χρωμα του καθε "κουμπιου" απο το μενου οταν κανεις hover με το ποντικι */
+#navigation .active {
+    /* Style */
+    background-color: #cc3300;
 }
 
-.navigation a:active {
-    /* χρωμα που παιρνει το font οταν πατας το συγκεκριμενο link */
-    color: grey;
-}
-
-.navigation .active {
-    /* χρωμα που παινρει το καθε κουμπι οταν ειναι ενεργο , δηλαδη εισαι στην συγκεκριμενη σελιδα */
-    background-color: #2ea8d9;
-}
-
-/* !!!!!!!!!!!!!!!! INDEX !!!!!!!!!!!!!!! */
+/* MAIN */
 body {
-    background-color: #badff1;
-    /* χρωμα για background του main περιεχομενου , font για το περιεχομενο επισης και overflow ωστε να μην υπαρχει η οριζοντια μπαρα scroll */
+    /* Position */
+    text-align: center;
+    /* Style */
+    background: radial-gradient(circle, transparent 20%, #d4d4d4 20%, #d4d4d4 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #d4d4d4 20%, #d4d4d4 80%, transparent 80%, transparent) 35px 35px, linear-gradient(#003333 2.8000000000000003px, transparent 2.8000000000000003px) 0 -1.4000000000000001px, linear-gradient(90deg, #003333 2.8000000000000003px, #d4d4d4 2.8000000000000003px) -1.4000000000000001px 0;
+    background-size: 70px 70px, 70px 70px, 35px 35px, 35px 35px;
     font-family: roboto;
     font-size: 18px;
-    /*font-size: 1.17vw;*/
+    /* Extra */
     overflow-y: scroll;
     overflow-x: hidden;
-    text-align: center;
 }
 
-#myData {
+/* FOOTER */
+#footer-content {
+    /* Position */
+    text-align: center;
+    margin-left: -10px;
+    margin-right: -10px;
+    /* Style */
+    font-family: roboto-light;
+    background-color: #d4d4d4;
+    color: #003333;
+    box-shadow: 10px -5px 16px #003333;
+}
+
+#footer-content>h4 {
+    /* Position */
+    padding-top: 5px;
+    /* Style */
+    font-size: 20px;
+    font-family: roboto;
+}
+
+.footer-social {
+    /* Style */
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+#footer-logo {
+    /* Position */
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    flex-wrap: wrap;
+    width: 170px;
+    height: 50px;
+}
+
+/* INDEX */
+#categories {
+    /* Position */
+    padding-top: 5%;
+    padding-bottom: 5%;
     align-items: center;
     justify-content: center;
     justify-content: space-evenly;
-    padding-top: 5%;
-    padding-bottom: 5%;
+    /* Extra */
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.titlos {
-    border: 2px solid #2ea8d9;
-    background-color: #6ab1d4;
-    border-radius: 25px;
-    box-shadow: 0px 2px 16px #6ab1d4;
-    padding-top: 25px;
-    margin-top: -40px;
-}
-
-.fotografia {
-    border: 2px solid #2ea8d9;
-    border-bottom: 0px solid #2ea8d9;
-    background-color: #6ab1d4;
+.category .image {
+    /* Style */
+    border: 2px solid #cc3300;
+    border-bottom: 0px solid #cc3300;
+    background-color: #cc3300;
     border-image-outset: 15px;
+    border-radius: 25px 25px 0px 0px;
+    box-shadow: 0px 2px 16px #cc3300;
+    /* Extra */
     max-height: 370px;
     overflow: hidden;
-    border-radius: 25px 25px 0px 0px;
-    box-shadow: 0px 2px 16px #6ab1d4;
+}
+
+.category .title {
+    /* Position */
+    padding-top: 40px;
+    margin-top: -40px;
+    /* Style */
+    border: 2px solid #cc3300;
+    background-color: #003333;
+    color: #d4d4d4;
+    border-radius: 25px;
+    box-shadow: 0px 2px 16px #cc3300;
 }
 
 /* CATEGORY */
+#login {
+    /* Position */
+    float: right;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    /* Style */
+    background-color: #003333;
+    color: #d4d4d4;
+    border: 4px solid #cc3300;
+    border-radius: 25px;
+    box-shadow: 0px 2px 16px #003333;
+    /* Extras */
+    display: flex;
+    height: 120px;
+    width: 170px;
+}
+
 #form {
-    background-color: #84ceeb;
+    /* Position */
+    margin: 0 auto;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 #form button {
+    /* Position */
+    margin-top: 10px;
+    margin-bottom: 5px;
+    /* Style */
     background-color: red;
+    color: #d4d4d4;
+    width: 50px;
+    height: 30px;
+}
+
+#form button:hover {
+    cursor: pointer;
 }
 
 #cart {
-    visibility: hidden;
-    background-color: #84ceeb;
-    margin-top: -20px;
+    /* Position */
+    margin: auto;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    /* Style */
+    color: #d4d4d4;
 }
 
-#myProducts {
+#cart a {
+    /* Style */
+    cursor: pointer;
+    color: #d4d4d4;
+}
+
+#products {
+    /* Position */
+    align-items: center;
+    margin-top: 35px;
+    /* Extra */
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
 }
 
-.proion {
-    font-family: roboto-regular;
-    border: 4px solid #6ab1d4;
-    box-shadow: 0px 2px 16px #6ab1d4;
-    border-radius: 25px;
-    max-width: 90%;
-    margin-top: 2%;
+.product {
+    /* Position */
     margin-bottom: 2%;
-    margin-left: 2%;
+    margin-left: 10px;
+    margin-right: 10px;
+    float: center;
+    /* Style */
+    font-family: roboto-regular;
+    background-color: #003333;
+    color: #d4d4d4;
+    border: 4px solid #cc3300;
+    box-shadow: 0px 2px 16px #cc3300;
+    border-radius: 25px;
 }
 
-.photo>img {
-    float: left;
+.product .image {
+    /* Position */
+    margin-top: 10px;
+    /* Style */
+    border: 2px solid #cc3300;
+    background-color: #003333;
+    border-radius: 25px 25px 25px 25px;
+    /* Extra */
+    object-fit: contain;
     max-width: 30%;
     max-height: 30%;
-    border-right: 2px solid #6ab1d4;
-    background-color: #6ab1d4;
-    border-radius: 0px 25px 25px 25px;
-    object-fit: contain;
 }
 
-.title {
-    border-bottom: 2px solid #6ab1d4;
+.product .title {
+    /* Style */
+    border-bottom: 2px solid #cc3300;
+    /* Extras */
+    text-transform: capitalize;
 }
 
-.perigrafh {
-    text-align: left;
-    padding-left: 370px;
+.product .description {
+    /* Position */
+    padding-left: 40px;
     padding-right: 40px;
 }
 
-.prod {
-    margin-top: -30px;
-    margin-bottom: 15px;
+.product .description .code {
+    /* Extras */
+    text-transform: capitalize;
 }
 
-h5 {
+.product .description .code>h5 {
+    /* Extra */
     display: inline-block;
 }
 
-.kwdikos {
-    display: inline-block;
-    font-size: 16px;
-}
-
-.price {
-    text-align: left;
-    padding-left: 370px;
-}
-
-.price>h3 {
+.product .description .code .kwdikos {
+    /* Extra */
     display: inline-block;
 }
 
-.price>p {
+.product .price>h3 {
+    /* Extra */
     display: inline-block;
+}
+
+.product .price>p {
+    /* Position */
     padding-left: 5px;
+    /* Extra */
+    display: inline-block;
+}
+
+.buy-button {
+    /* Position */
+    margin-bottom: 5px;
+    /* Style */
+    background-color: #cc3300;
+    color: #d4d4d4;
+    /* Extra */
+    width: 50px;
+    height: 30px;
+}
+
+.buy-button:hover {
+    /* Style */
+    cursor: pointer;
 }
 
 .kathgories-proiontwn {
+    /* Position */
     text-align: left;
     float: left;
-    margin-top: 2%;
+    margin-left: 5px;
     padding-left: 5px;
     padding-right: 5px;
-    border: 4px solid #6ab1d4;
+    /* Style */
+    background-color: #003333;
+    color: #d4d4d4;
+    border: 4px solid #cc3300;
     border-radius: 25px;
-    box-shadow: 0px 2px 16px #6ab1d4;
+    box-shadow: 0px 2px 16px #003333;
 }
 
 .koumpia {
+    /* Position */
     padding-top: 2px;
     padding-bottom: 2px;
 }
 
 input,
 label {
+    /* Extra */
     cursor: pointer;
-    /* pointer that indicates to a link */
 }
 
 input[type="radio"] {
+    /* Extra */
     height: 15px;
     width: 15px;
 }
 
 .ypokathgories {
+    /* Style */
     appearance: none;
     border: 4px solid #fff;
     background-color: #ccc;
@@ -252,19 +374,15 @@ input[type="radio"] {
 }
 
 .ypokathgories:hover {
+    /* Style */
     outline-color: gray;
 }
 
-.ypokathgories .active {
-    outline-color: #5680e9;
-    background-color: #5680e9;
-}
-
 .ypokathgories:checked {
-    outline-color: #5680e9;
-    background-color: #5680e9;
+    /* Style */
+    outline-color: #cc3300;
+    background-color: #cc3300;
     animation: outline-checked;
-    /* το κουμπι να παιρνει γυρω γυρω και μεσα το χρωμα αυτο */
     animation-duration: 0.1s;
     animation-iteration-count: 4;
     animation-direction: alternate;
@@ -276,39 +394,49 @@ input[type="radio"] {
         outline-offset: 0;
     }
 
-    /* το χρεαιζομαστε για τo animation sequence */
     100% {
         outline-offset: -0.2rem;
     }
 }
 
-/* FOOTER */
-.footer-content {
-    font-family: roboto-light;
-    background-color: #5680e9;
-    text-align: center;
-    /*margin-top: 50px;*/
-    margin-left: -10px;
-    margin-right: -10px;
-    box-shadow: 0px -5px 16px #6ab1d4;
-    border-bottom: 15px solid black;
+/* CART */
+table {
+    /* Position */
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    /* Style */
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #003333;
+    color: #d4d4d4;
+    /* Extra */
+    border-collapse: collapse;
+    width: 70%;
 }
 
-.footer-content>h4:first-child {
-    font-size: 20px;
-    padding-top: 5px;
-    font-family: roboto;
+table th {
+    /* Position */
+    padding: 8px;
+    padding-top: auto;
+    padding-bottom: auto;
+    /* Style */
+    border: 1px solid #ddd;
+    background-color: #cc3300;
+    color: white;
+    /* Extra */
+    text-transform: capitalize;
 }
 
-.footer-content>a {
-    text-decoration: none;
+table td {
+    /* Position */
+    padding: 8px;
+    /* Style */
+    border: 1px solid #ddd;
+    /* Extra */
+    text-transform: capitalize;
 }
 
-.footer-content>a>img {
-    filter: grayscale(100%);
-    border-radius: 25px;
-}
-
-.footer-content>a>img:hover {
-    filter: grayscale(0%);
+table td:hover {
+    /* Style */
+    cursor: pointer;
 }

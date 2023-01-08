@@ -1,6 +1,3 @@
-// Put your client side JS code here
-console.log('Hello world')
-
 fetch("https://wiki-shop.onrender.com/categories")
     .then(response => {
         return response.json();
@@ -11,20 +8,21 @@ fetch("https://wiki-shop.onrender.com/categories")
 
         template.templateFunction = Handlebars.compile(
             `{{#each this}}
-            <div class='kathgoria'>
-            <div class="fotografia">
-                <a href="category.html?categoryID={{id}}">
-                <img src="{{img_url}} alt={{title}}">
-                </a>
-            </div>
-            <div class="titlos">
-                <h2>{{title}}</h2>
-            </div>
-            </div>
-        {{/each}}`);
+                <div class='category'>
+                    <div class="image">
+                        <a href="category.html?categoryID={{id}}">
+                            <img src="{{img_url}} alt={{title}}">
+                        </a>
+                    </div>
+                    <div class="title">
+                        <h2>{{title}}</h2>
+                    </div>
+                </div>
+            {{/each}}`
+        );
 
         let content = template.templateFunction(data);
-        let main = document.getElementById("myData");
+        let main = document.getElementById("categories");
         main.innerHTML += content;
     })
     .catch(error => console.log(error));

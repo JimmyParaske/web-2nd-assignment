@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <title>My application</title>
+    <title>Categories | WikiShop</title>
     <meta charset="UTF-8">
 
-    <!-- Load the Handlebars library. -->
+    <!-- Load Handlebars library. -->
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
     <!-- Load CSS stylesheets. -->
@@ -20,56 +20,58 @@
 
 <body>
     <div class="grid-container">
-        <div class="header-item">
-            <header class="header-light-color">
+        <section id="header-item">
+            <header id="header-logo">
                 <a href="index.html">
-                    <img srcset="./assets/Technodata-logos_black_SR.png 600w,
-                        ./assets/Technodata-logos_black_MR.png 768w,
-                        ./assets/Technodata-logos_black_LR.png 1000w" sizes="(max-width: 600px) 80vw,
-                            (max-width: 768px) 100vw,
-                            1000px" src="./assets/Technodata-logos_black_LR.png" alt="Technodata λογότυτπο">
+                    <img src="./assets/header-logo.png" alt="Λογότυπο">
                 </a>
 
-                <nav class="navigation">
+                <nav id="navigation">
                     <a href="index.html">HOME</a>
                     <a href="category.html?categoryID=1" class="active">PRODUCT CATEGORIES</a>
                 </nav>
+            </header>
+        </section>
 
+        <section class="main-item">
+            <div id="mySubcategories"></div>
+
+            <div id="login">
                 <form id="form">
+                    <h4>Log In</h4>
                     <input id="username" name="username" type="text" autocomplete="username" placeholder="Username">
                     <input id="password" name="password" type="password" placeholder="Password">
 
-                    <button type="submit">Σύνδεση</button>
+                    <button id="form-button" type="submit">Log in</button>
 
                     <p id="message"></p>
                 </form>
 
-                <div id="cart">
-                    <p id="size">Προϊόντα: 0</p>
-                </div>
-            </header>
-        </div>
+                <div id="cart"></div>
 
-        <div class="main-item">
-            <div id="mySubcategories"></div>
-            <div id="myProducts"></div>
+                <script id="cart-template">
+                    <a href="./cart.html?username={{username}}&sessionId={{sessionId}}">
+                        <p id="size">Cart: </p>
+                        <p id="cart-message"></p>
+                    </a>
+                </script>
+            </div>
 
-            <script id="products" type="text/x-handlebars-template">
+            <div id="products"></div>
+
+            <script id="products-template" type="text/x-handlebars-template">
                 {{#each this}}
                 <div class="{{subcategory_id}}">
-                    <div class='proion'>
-                        <div class="title">
-                            <h2>{{title}}</h2>
-                        </div>
+                    <div class='product'>
+                        <h2 class="title">{{title}}</h2>
+                        
+                        <img class="image" src="{{image}} alt{{title}}">
 
-                        <div class="photo">
-                            <img src="{{image}} alt{{title}}">
-                        </div>
-
-                        <div class="perigrafh">
+                        <div class="description">
                             <h3>Description:</h3>
                             <p>{{description}}</p>
-                            <div class="prod">
+
+                            <div class="code">
                                 <h5>product code:</h5>
                                 <p class="kwdikos">{{id}}</p>
                             </div>
@@ -77,42 +79,41 @@
 
                         <div class="price">
                             <h3>Price:</h3>
-                            <p>{{cost}}.99$</p>
-                            <button id="buyButton" name="{{id}}" type="button" onclick="buyProduct(event,name)">Buy</button>
+                            <p>{{cost}}</p>
                         </div>
+
+                        <button class="buy-button" type="button" id="{{id}}" name="{{title}}" value="{{cost}}" onclick="buyProduct(event,id,name,value)">Buy</button>
                     </div>
                 </div>
                 {{/each}}
             </script>
-        </div>
+        </section>
 
-        <div class="footer-item">
-            <footer class="footer-content">
+        <section id="footer-item">
+            <footer id="footer-content">
                 <h4>Follow us on social media</h4>
 
                 <a href="index.html">
-                    <img src="./assets/facebook_logo.png" width="50" height="50" alt="Facebook λογότυπο">
+                    <img src="./assets/facebook_logo.png" class="footer-social" alt="Facebook λογότυπο">
                 </a>
 
                 <a href="index.html">
-                    <img src="./assets/twitter_logo.png" width="50" height="50" alt="Twitter λογότυπο">
+                    <img src="./assets/twitter_logo.png" class="footer-social" alt="Twitter λογότυπο">
                 </a>
 
                 <a href="index.html">
-                    <img src="./assets/instagram_new.png" width="50" height="50" alt="Instagram λογότυπο">
+                    <img src="./assets/instagram_new.png" class="footer-social" alt="Instagram λογότυπο">
                 </a>
 
                 <a href="index.html">
-                    <img src="./assets/youtube_logo.png" width="50" height="50" alt="Youtube λογότυπο">
+                    <img src="./assets/youtube_logo.png" class="footer-social" alt="Youtube λογότυπο">
                 </a>
-                <h4>©2022 Techodata Computers</h4>
 
                 <a href="index.html">
-                    <img src="./assets/Technodata-logos_cropped_footer.png" width="170" height="50"
-                        alt="Tecnhodata λογότυπο">
+                    <img src="./assets/footer-logo.png" id="footer-logo" alt="Λογότυπο">
                 </a>
             </footer>
-        </div>
+        </section>
     </div>
 </body>
 
