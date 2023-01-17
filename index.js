@@ -4,8 +4,10 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 // Path
 const path = require('path');
+
 // Create an ExpressJS app
 const app = express();
+
 // Port
 const port = 8080;
 app.listen(port);
@@ -32,18 +34,10 @@ app.get('/', function (req, res) {
     })
 })
 
+// MySQL database
+const database = require("./classes/Database.js");
+
 // Login Service – LS
-const User = require("./classes/User.js");
-const Login = require("./classes/Login.js");
-
-const users = [
-    new User("Alice", "Alice"),
-    new User("Peter", "Peter"),
-    new User("Harry", "Harry")
-];
-
-let logins = [];
-
 app.post('/LS', async (req, res) => {
     try {
         // Get username & password
@@ -51,33 +45,37 @@ app.post('/LS', async (req, res) => {
         let passwordSubmitted = req.body.password;
 
         // Find user in the database
-        userFound = users.find(user => user.getUsername() == usernameSubmitted);
+        let query = `SELECT * FROM WikiShop.Users WHERE username=?`;
+        database.query(query, [usernameSubmitted], function (error, result) {
+            // If user authentication succeeded
+            if ((result.length != 0) && (result[0].password == passwordSubmitted)) {
+                // Create unique session id
+                const code = uuidv4();
 
-        // If user authentication succeeded
-        if ((userFound) && (userFound.getPassword() == passwordSubmitted)) {
-            // Create unique session id
-            const code = uuidv4();
+                // If user had logged in again
+                query = `SELECT * FROM WikiShop.Logins WHERE username=?`;
+                database.query(query, [usernameSubmitted], function (error, result) {
+                    if (result.length != 0) {
+                        // Change user's unique session id
+                        let query = `UPDATE WikiShop.Logins SET sessionID=? WHERE username=?`;
+                        database.query(query, [code, usernameSubmitted]);
+                    } else {
+                        // Else, log user in
+                        let query = `INSERT INTO WikiShop.Logins (username,sessionID) VALUES (?,?)`;
+                        database.query(query, [usernameSubmitted, code]);
+                    }
+                });
 
-            // If user had logged in again
-            let userLogged = logins.find(user => user.getUsername() === usernameSubmitted);
-            if (userLogged) {
-                // Change unique session id
-                userLogged.updateSessionId(code);
+                // Send "Accepted" response status code
+                res.status(200);
+                // Send unique session id
+                res.send(JSON.stringify({ sessionId: code }));
             } else {
-                // Else, log user in
-                logins.push(new Login(usernameSubmitted, code));
+                // Else, send "Unauthorized" response status code
+                res.status(401);
+                res.send(JSON.stringify({}));
             }
-            console.log(logins);
-
-            // Send response status code
-            res.status(200);
-            // Send unique session id
-            res.send(JSON.stringify({ sessionId: code }));
-        } else {
-            // Else, send response status code
-            res.status(401);
-            res.send(JSON.stringify({}));
-        }
+        });
     } catch {
         // If there is internal server error, send "Not Implemented" response status code
         res.status(501);
@@ -86,10 +84,6 @@ app.post('/LS', async (req, res) => {
 });
 
 // Cart Item Service - CIS
-const Product = require("./classes/Product.js");
-
-let cart = [];
-
 app.post('/CIS', async (req, res) => {
     try {
         // Get product's id, title & price
@@ -102,27 +96,32 @@ app.post('/CIS', async (req, res) => {
         let sessionIdSubmitted = req.body.sessionId;
 
         // If user is logged in 
-        let userLogged = logins.find(user => user.getUsername() == usernameSubmitted);
-        if ((userLogged) && (userLogged.getSessionId() == sessionIdSubmitted)) {
-            // If user has already added that product to the cart
-            let productAdded = cart.find(product => ((product.getId() == productId) && (product.getUsername() == userFound.getUsername())))
-            if (productAdded) {
-                // Increase product's quantity 
-                productAdded.addQuantity();
-            } else {
-                // Else, add product to cart
-                cart.push(new Product(usernameSubmitted, productId, productTitle, productPrice, 1));
-            }
-            console.log(cart);
+        query = `SELECT * FROM WikiShop.Logins WHERE username=?`;
+        database.query(query, [usernameSubmitted], function (error, result) {
+            if ((result.length != 0) && (result[0].sessionID == sessionIdSubmitted)) {
+                // If user has already added that product to the cart
+                query = `SELECT * FROM WikiShop.Cart WHERE (productID=? AND username=?)`;
+                database.query(query, [productId, usernameSubmitted], function (error, result) {
+                    if (result.length != 0) {
+                        // Increase product's quantity 
+                        let query = `UPDATE WikiShop.Cart SET productQuantity=? WHERE (productID=? AND username=?)`;
+                        database.query(query, [(result[0].productQuantity + 1), result[0].productID, result[0].username]);
+                    } else {
+                        // Else, add product to cart
+                        let query = `INSERT INTO WikiShop.Cart (username, productID, productTitle, productPrice, productQuantity) VALUES (?,?,?,?,?)`;
+                        database.query(query, [usernameSubmitted, productId, productTitle, productPrice, 1]);
+                    }
+                });
 
-            // Send "Accepted" response status code
-            res.status(200);
-            res.send();
-        } else {
-            // Else, send "Unauthorized" response status code
-            res.status(401);
-            res.send();
-        }
+                // Send "Accepted" response status code
+                res.status(200);
+                res.send();
+            } else {
+                // Else, send "Unauthorized" response status code
+                res.status(401);
+                res.send();
+            }
+        })
     } catch {
         // If there is internal server error, send "Not Implemented" response status code
         res.status(501);
@@ -138,34 +137,32 @@ app.post('/CSS', async (req, res) => {
         let sessionIdSubmitted = req.body.sessionId;
 
         // If user is logged in 
-        let userLogged = logins.find(user => user.getUsername() == usernameSubmitted);
-        if ((userLogged) && (userLogged.getSessionId() == sessionIdSubmitted)) {
-            // Calculate cart size
-            let size = 0;
-            // For every product in the cart
-            cart.filter(product => {
-                // If the item was added by user
-                if (product.getUsername() == usernameSubmitted) {
-                    // Increase cart size by item's quantity
-                    size += product.getQuantity();
+        query = `SELECT * FROM WikiShop.Logins WHERE username=?`;
+        database.query(query, [usernameSubmitted], function (error, result) {
+            if ((result.length != 0) && (result[0].sessionID == sessionIdSubmitted)) {
+                // Get user's cart
+                query = `SELECT * FROM WikiShop.Cart WHERE username=?`;
+                database.query(query, [usernameSubmitted], function (error, result) {
+                    let size = 0;
+                    // For every product in user's cart
+                    for (i = 0; i < result.length; i++) {
+                        // Raise cart's size by product's quantity
+                        size += result[i].productQuantity;
+                    }
 
-                    return true;
-                }
-                return false;
-            })
-
-            // Send "Accepted" response status code
-            res.status(200);
-            // Send cart size
-            res.send(JSON.stringify({ "size": size }));
-        } else {
-            // Else, send "Unauthorized" response status code
-            res.status(401);
-            res.send(JSON.stringify({}));
-        }
+                    // Send "Accepted" response status code
+                    res.status(200);
+                    // Send cart size
+                    res.send(JSON.stringify({ "size": size }));
+                });
+            } else {
+                // Else, send "Unauthorized" response status code
+                res.status(401);
+                res.send(JSON.stringify({}));
+            }
+        })
     } catch {
-        // If there is internal server error
-        // Send response status code
+        // If there is internal server error, send response status code
         res.status(501);
         res.send();
     }
@@ -178,36 +175,36 @@ app.post('/CRS', async (req, res) => {
         let usernameSubmitted = req.body.username;
         let sessionIdSubmitted = req.body.sessionId;
 
-        // If user is logged in
-        let userLogged = logins.find(user => user.getUsername() == usernameSubmitted);
-        if ((userLogged) && (userLogged.getSessionId() == sessionIdSubmitted)) {
-            let cartItems = [];
-            let totalCost = 0;
+        // If user is logged in 
+        query = `SELECT * FROM WikiShop.Logins WHERE username=?`;
+        database.query(query, [usernameSubmitted], function (error, result) {
+            if ((result.length != 0) && (result[0].sessionID == sessionIdSubmitted)) {
+                // Get user's cart
+                query = `SELECT * FROM WikiShop.Cart WHERE username=?`;
+                database.query(query, [usernameSubmitted], function (error, result) {
+                    let cartItems = [];
+                    let totalCost = 0;
 
-            // For every item in the cart
-            cart.filter(product => {
-                // If the item was added by user
-                if (product.getUsername() == usernameSubmitted) {
-                    // Add it in the cart contents
-                    cartItems.push({ "title": product.getTitle(), "cost": product.getCost(), "quantity": product.getQuantity() });
+                    // For every product in user's cart
+                    for (i = 0; i < result.length; i++) {
+                        // Add it in the cart contents
+                        cartItems.push({ "title": result[i].productTitle, "cost": result[i].productPrice, "quantity": result[i].productQuantity });
 
-                    // Increase total cost
-                    totalCost += (parseInt(product.getCost()) * product.getQuantity());
+                        // Increase total cost
+                        totalCost += (result[i].productPrice * result[i].productQuantity);
+                    }
 
-                    return true;
-                }
-                return false;
-            })
-
-            // Send "Accepted" response status code
-            res.status(200);
-            // Send response
-            res.send(JSON.stringify({ "cartItems": cartItems, "totalCost": totalCost }));
-        } else {
-            // Else, send "Unauthorized" response status code
-            res.status(401);
-            res.send(JSON.stringify({}));
-        }
+                    // Send "Accepted" response status code
+                    res.status(200);
+                    // Send response
+                    res.send(JSON.stringify({ "cartItems": cartItems, "totalCost": totalCost }));
+                });
+            } else {
+                // Else, send "Unauthorized" response status code
+                res.status(401);
+                res.send(JSON.stringify({}));
+            }
+        })
     } catch {
         // If there is internal server error, send "Not Implemented" response status code
         res.status(501);

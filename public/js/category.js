@@ -41,7 +41,7 @@ fetch("https://wiki-shop.onrender.com/categories/" + id + "/subcategories")
                     {{#each this}}
                         <div class="koumpia">
                             <input type="radio" id="{{title}}" name="subcategory-button" class="ypokathgories" value="{{title}}" onclick="ShowHideDiv()">
-                            <label for="{{id}}">{{title}}</label>
+                            <label for="{{title}}">{{title}}</label>
                         </div>
                     {{/each}}
             </aside>`);
@@ -309,10 +309,13 @@ function getLSStatus(status) {
     if (status == "200") {
         // Hide log in form
         form.style.display = "none";
-    } else {
-        // Else, print error message
+    } else if (status == "401") {
+        // Else, if user did not log in, print error message
         let message = document.getElementById("message");
         message.innerHTML = "Wrong username or password!"
+    } else {
+        // Else, show site's error message
+        window.alert("Our site is currently unavailable. Please try again later.")
     }
 
     return;
@@ -370,6 +373,9 @@ function getCISStatus(status) {
     } else if (status == "401") {
         // Else, if user is not logged in, show error message
         window.alert("Please login to add products to your cart!");
+    } else {
+        // Else, show site's error message
+        window.alert("Our site is currently unavailable. Please try again later.")
     }
 
     return;
