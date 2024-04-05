@@ -1,6 +1,8 @@
 # inf165-webdev-project
-Βασική δομή ενός project για τις ανάγκες της εργασίας 2 του μαθήματος INF165.
 
+A basic structure for a project for the needs of assignment 2 of course: "**Web Application Technologies and Programming**"
+<br>*Department of Computer Science, AUEB*
+<br>
 ```bash
 .
 ├── index.js
@@ -13,28 +15,30 @@
         └── main.js
 ```
 
-Οι απαραίτητες εξαρτήσεις υπάρχουν ήδη στο package.json. 
-Μπορείτε να τις εγκαταστήσετε με χρήση της εντολής
+The necessary dependencies are already listed in the package.json file. <br>
+You can install the necessary dependencies using the command:
 ```
 npm install
 ```
 
-Για να δοκιμάσετε την εφαρμογή σας μπορείτε να την ξεκινήσετε με την εντολή
+
+To test your application, you can start it with the following command:
 ```
 node index.js
 ```
 
-Βέβαια, μετά από κάθε αλλαγή στον κώδικα του server θα πρέπει να κάνετε επανεκκίνηση της εφαρμογής. Για διευκόλυνσή σας μπορείτε να ξεκινήσετε την εφαρμογή με τη βοήθεια του εργαλείου nodemon ως εξής:
+Of course, after each change in the server code, you will need to restart the application. For your convenience, you can start the application using the nodemon tool as follows:
 
 ```
 nodemon index.js
 ```
 
-Κάθε φορά που αλλάζετε τον κώδικα του server, το nodemon επανεκκινεί αυτόματα τον server.
 
-## Χρήσιμες βιβλιοθήκες
+Every time you change the server code, nodemon automatically restarts the server.
 
-- [Handlebars](https://handlebarsjs.com/guide/): γλώσσα για τη σύνταξη υποδειγμάτων (templates) για δυναμική παραγωγή HTML περιεχομένου,
-- [expressjs](https://expressjs.com/en/guide/routing.html): γρήγορη υλοποίηση υπηρεσιών ιστού,
-- [uuid](https://www.npmjs.com/package/uuid): παραγωγή μοναδικών αναγνωριστικών,
-- [nodemon](https://www.npmjs.com/package/nodemon): εργαλείο για αυτόματη επανεκκίνηση μιας Node.js εφαρμογής, σε περίπτωση αλλαγών στα αρχεία της εφαρμογής.
+## Useful libraries
+
+- [Handlebars](https://handlebarsjs.com/guide/):  a templating language that allows you to create dynamic HTML templates.
+- [expressjs](https://expressjs.com/en/guide/routing.html): rapid web service implementation,
+- [uuid](https://www.npmjs.com/package/uuid): generating unique identifiers,
+- [nodemon](https://www.npmjs.com/package/nodemon): Tool for automatic restart of a Node.js application upon changes to its files.
